@@ -66,10 +66,10 @@ Web Security Scanner was used to scan the application.
 - Cross-Site Scripting (XSS)  
 - Clickjacking  
 
-📸  
+
 ![Scan List](screenshots/web-security-scan-list.png)
 
-📸  
+ 
 ![Scan Results](screenshots/web-security-scan-results.png)
 
 ---
@@ -78,7 +78,7 @@ Web Security Scanner was used to scan the application.
 
 The vulnerable application hosted on VM:
 
-📸  
+  
 ![Cymbal Bank App](screenshots/cymbal-bank-app.png)
 
 ---
@@ -89,7 +89,7 @@ The vulnerable application hosted on VM:
 - Restricted SSH (22) and RDP (3389) access  
 - Limited access to trusted IP ranges  
 
-📸  
+  
 ![Firewall Rules](screenshots/firewall-rules-config.png)
 
 ---
@@ -101,11 +101,7 @@ To reduce alert fatigue, mute rules were configured:
 - FLOW_LOGS_DISABLED  
 - AUDIT_LOGGING_DISABLED  
 - ADMIN_SERVICE_ACCOUNT  
-
-📸  
-![Mute Menu](screenshots/scc-mute-rule-menu.png)
-
-📸  
+  
 ![Mute Rules](screenshots/scc-mute-rules-configured.png)
 
 ---
@@ -113,8 +109,7 @@ To reduce alert fatigue, mute rules were configured:
 ## 📦 Step 5: Export Findings
 
 Findings were exported to Cloud Storage for further analysis.
-
-📸  
+ 
 ![GCS Export](screenshots/gcs-findings-export.png)
 
 ---

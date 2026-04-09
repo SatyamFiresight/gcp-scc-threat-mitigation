@@ -1,77 +1,176 @@
-## Findings Analysis and Remediation
+# 🔍 Findings Analysis
 
-Using Security Command Center (SCC), multiple findings were identified and categorized based on severity and impact.
+## 📌 Overview
 
----
+Security Command Center (SCC) and Web Security Scanner were used to identify security risks in the environment.
 
-### 🔴 High Severity Findings
-
-#### 1. Open SSH Port (Port 22)
-- **Issue:** SSH access was exposed to the public internet.
-- **Risk:** Susceptible to brute-force attacks and unauthorized access.
-- **Remediation:** Restricted access using trusted IP range (35.235.240.0/20).
+The findings include misconfigurations, vulnerabilities, and potential threats that could impact the security posture of the application.
 
 ---
 
-#### 2. Open RDP Port (Port 3389)
-- **Issue:** RDP access allowed from public sources.
-- **Risk:** High risk of credential attacks and system compromise.
-- **Remediation:** Limited access to controlled IP range and removed public exposure.
+## 🚨 Key Findings Identified
+
+### 🔴 1. Public IP Exposure
+- **Severity:** High  
+- **Resource:** Compute Engine VM  
+
+**Risk:**  
+The VM is exposed to the internet, increasing the attack surface.
+
+**Impact:**  
+- Unauthorized access attempts  
+- Increased risk of brute-force attacks  
+
+**Mitigation:**  
+- Restrict access using firewall rules  
+- Limit inbound traffic to trusted IP ranges  
 
 ---
 
-### 🟡 Configuration-Based Findings (Muted)
+### 🔴 2. Firewall Rules Too Permissive
+- **Severity:** Medium  
 
-As part of the scenario requirements, certain findings were intentionally muted:
+**Risk:**  
+Firewall rules allow unrestricted SSH (22) and RDP (3389) access.
 
-- **Flow Logs Disabled**
-- **Audit Logging Disabled**
-- **Admin Service Account Findings**
+**Impact:**  
+- Remote access exploitation  
+- Potential unauthorized login attempts  
 
-These were acknowledged but excluded from active monitoring using SCC mute rules.
+**Mitigation:**  
+- Restrict source IP ranges  
+- Apply least privilege network access  
 
-📸 Example:
-![Mute Rules](../screenshots/mute-rules.png)
-
----
-
-### 🌐 Application Security Assessment
-
-A web application hosted on Compute Engine was scanned using **Web Security Scanner**.
-
-Steps performed:
-- Assigned static external IP to VM
-- Accessed application via `http://<EXTERNAL_IP>:8080`
-- Ran automated security scan
-
-📸 Example:
-![Web Scan](../screenshots/web-security-scan.png)
+📸  
+![Firewall Rules](../screenshots/firewall-rules-config.png)
 
 ---
 
-### 📦 Findings Export
+### 🟠 3. Logging Disabled
+- **Severity:** Medium  
 
-Security findings were exported to a Cloud Storage bucket for long-term storage and auditing.
+**Risk:**  
+VPC Flow Logs and audit logging are disabled.
 
-- Format: JSONL  
-- Scope: All findings  
-- Storage: GCS Bucket  
+**Impact:**  
+- Lack of visibility into network activity  
+- Difficult to investigate incidents  
 
-📸 Example:
-![Export](../screenshots/findings-export.png)
-
----
-
-### 🔐 Key Security Learnings
-
-- Public exposure of ports is a critical risk factor  
-- Proper firewall configuration is essential  
-- Centralized monitoring improves visibility  
-- SCC enables effective vulnerability management  
-- Security requires continuous monitoring and response  
+**Mitigation:**  
+- Enable logging for monitoring and auditing  
 
 ---
 
-### 📊 SCC Dashboard View
+### 🔴 4. Default Service Account Usage
+- **Severity:** Medium  
 
-![SCC Dashboard](../screenshots/scc-dashboard.png)
+**Risk:**  
+Default service account is used with broad permissions.
+
+**Impact:**  
+- Privilege escalation  
+- Unauthorized resource access  
+
+**Mitigation:**  
+- Use custom service accounts  
+- Apply least privilege IAM roles  
+
+---
+
+### 🔴 5. IAM Anomalous Activity
+- **Severity:** High  
+
+**Risk:**  
+Unusual IAM activity detected (anomalous grants).
+
+**Impact:**  
+- Potential insider threat  
+- Unauthorized privilege assignment  
+
+**Mitigation:**  
+- Review IAM policies  
+- Remove unnecessary roles  
+
+---
+
+## 🧪 Web Application Vulnerabilities
+
+### 🔴 6. Cross-Site Scripting (XSS)
+- **Severity:** High  
+
+**Description:**  
+User input is not properly sanitized, allowing script injection.
+
+**Impact:**  
+- Session hijacking  
+- Data theft  
+- Malicious script execution  
+
+---
+
+### 🟠 7. Clickjacking
+- **Severity:** Low  
+
+**Description:**  
+Application can be embedded in malicious frames.
+
+**Impact:**  
+- User interaction manipulation  
+- Phishing attacks  
+
+---
+
+📸  
+![Scan Results](../screenshots/web-security-scan-results.png)
+
+---
+
+## 📊 Findings Dashboard
+
+Security Command Center provides a centralized view of all findings.
+
+📸  
+![SCC Findings](../screenshots/scc-findings-overview.png)
+
+---
+
+## 🔇 Noise Reduction (Mute Rules)
+
+To reduce unnecessary alerts, mute rules were applied for:
+
+- FLOW_LOGS_DISABLED  
+- AUDIT_LOGGING_DISABLED  
+- ADMIN_SERVICE_ACCOUNT  
+
+📸  
+![Mute Rules](../screenshots/scc-mute-rules-configured.png)
+
+---
+
+## 📦 Exported Findings
+
+Findings were exported to Cloud Storage for further analysis and reporting.
+
+📸  
+![GCS Export](../screenshots/gcs-findings-export.png)
+
+---
+
+## 🧠 Key Insights
+
+- Misconfigurations are a major source of security risks  
+- Continuous monitoring is critical in cloud environments  
+- Not all findings require action (some can be tuned using mute rules)  
+- Combining multiple tools gives better visibility  
+
+---
+
+## 🚀 Conclusion
+
+This analysis demonstrates how:
+
+- Security issues can be identified using SCC  
+- Vulnerabilities can be detected using Web Security Scanner  
+- Risks can be mitigated through proper configuration  
+
+It reflects a practical approach to cloud security monitoring and incident response.

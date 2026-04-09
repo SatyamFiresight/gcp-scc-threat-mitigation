@@ -122,7 +122,12 @@ Automation scripts were used to:
 - Update firewall rules  
 - Export findings to GCS  
 
-Location:
+Scripts are available in the `implementation/` directory:
+
+- `setup-environment.sh` → Initial environment setup  
+- `fix-security-findings.sh` → Firewall and security fixes  
+- `export-findings.sh` → Export SCC findings to Cloud Storage  
+
 
 ---
 
